@@ -18,7 +18,7 @@ class UserControllers {
         }
         const hashPass = await bcrypt.hash(password, 4)
         const user = await User.create({ name, password: hashPass, email })
-        const passingTable = await Passing.create({ userId: user.id })
+        const passingTable = await Passing.create({name: user.name, userId: user.id })
         const token = generateJWT(user.id, email)
         return res.json({ token })
     }
@@ -41,6 +41,12 @@ class UserControllers {
         const user = await User.findOne({ id: req.user.id })
               const token = generateJWT(req.user.id, req.user.email)
               return res.json({ token, user })
+    }
+    async passingUser(req, res, next) {
+        const { name, passing } = req.body
+        // const user = await Passing.findOne({ where: { name: name  }})
+        const user = await Passing.update({ passing:  passing}, {where: { name: name  }})
+        return res.json({ user })
     }
 }
 module.exports = new UserControllers()
