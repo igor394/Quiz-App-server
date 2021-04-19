@@ -20,7 +20,16 @@ const Passing = sequelize.define(
     }
 )
 
+const Quiz = sequelize.define(
+    'quizzes',
+    {
+        id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+        title: { type: DataTypes.STRING, unique: true },
+        info: { type: DataTypes.JSON }
+    }
+)
+
 User.hasOne(Passing)
 Passing.belongsTo(User)
 
-module.exports = { User, Passing }
+module.exports = { User, Passing, Quiz }
