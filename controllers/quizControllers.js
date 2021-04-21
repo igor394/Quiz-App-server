@@ -1,4 +1,4 @@
-const { Quiz } = require('../modelDb/models')
+const { Quiz, Passing, User } = require('../modelDb/models')
 const ErrorApi = require('../error/Error')
 
 class QuizControllers {
@@ -13,10 +13,13 @@ class QuizControllers {
         const quizzes = await Quiz.findAll()
         return res.json(quizzes)
     }
-    async delete(req, res) {
-
-        const quiz = await Quiz.destroy({ where: {title: req.body.title}  })
-        return res.json({message: quiz})
+    async getResult(req, res) {
+        let params = req.params.id
+        const decoded = Buffer.from(params, 'base64').toString('binary')
+        const result = await Passing.findOne({where:{id:decoded}})
+        const user = await User.findOne({where:{id:result.userId}})
+        const quiz = await Quiz.findOne({where:{id:result.quizId+1}})
+        return res.json({ 'user': user.name, "quiz": quiz.title, "result": result.correctAnswers})
     }
 
 
