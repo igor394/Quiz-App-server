@@ -8,19 +8,31 @@ const User = sequelize.define(
         name: { type: DataTypes.STRING, unique: true },
         password: { type: DataTypes.STRING },
         email: { type: DataTypes.STRING, unique: true },
-        isAdmin: {type: DataTypes.STRING, defaultValue: "USER"}
+        isAdmin: {type: DataTypes.STRING, defaultValue: false}
     }
 )
 
 const Passing = sequelize.define(
     'userPassing',
     {
-        name: { type: DataTypes.STRING, unique: true },
-        passing: { type: DataTypes.STRING }
+        userId: {type: DataTypes.INTEGER},
+        quizId: {type: DataTypes.INTEGER},
+        correctAnswers: { type: DataTypes.INTEGER },
+        incorrectAnswers: { type: DataTypes.INTEGER }
     }
 )
 
-User.hasOne(Passing)
-Passing.belongsTo(User)
+const Quiz = sequelize.define(
+    'quizzes',
+    {
+        id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+        title: { type: DataTypes.STRING, unique: true },
+        info: { type: DataTypes.JSON }
+    }
+)
 
-module.exports = { User, Passing }
+User.hasMany(Passing);
+Passing.belongsTo(User);
+
+
+module.exports = { User, Passing, Quiz }

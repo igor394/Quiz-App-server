@@ -8,5 +8,6 @@ const TokenCheckMiddleware = require('../middleware/TokenCheckMiddleware')
 router.post('/reg', userControllers.registr)
 router.post('/login', userControllers.login)
 router.get('/auth',TokenCheckMiddleware, userControllers.check)
+router.post('/passing', userControllers.passingUser)
 
 module.exports = router;

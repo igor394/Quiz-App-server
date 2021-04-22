@@ -3,10 +3,9 @@ require('dotenv').config()
 const cors = require('cors')
 const router = require('./routes/index')
 const sequelize = require('./modelDb/db')
-const models = require('./modelDb/models')
 
 
-const PORT = process.env.PORT || 3303
+const PORT = process.env.PORT
 const app = express()
 app.use(cors())
 app.use(express.json())
